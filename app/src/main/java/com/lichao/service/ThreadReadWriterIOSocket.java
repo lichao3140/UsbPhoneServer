@@ -80,7 +80,7 @@ public class ThreadReadWriterIOSocket implements Runnable {
                         // String(filebytes));
                         try {
                             /* 生成文件 */
-                            File file = FileHelper.newFile("12022119820508062X.JPG");
+                            File file = FileHelper.newFile("LI006.JPG");
                             FileHelper.writeFile(file, filebytes, 0,
                                     filebytes.length);
                         } catch (IOException e) {
@@ -127,8 +127,7 @@ public class ThreadReadWriterIOSocket implements Runnable {
      * byte[] fileformat：流的前5-8字节存储要转送的文件的格式（如.apk）
      *
      * */
-    public static byte[] receiveFileFromSocket(InputStream in,
-                                               OutputStream out, byte[] filelength, byte[] fileformat) {
+    public static byte[] receiveFileFromSocket(InputStream in, OutputStream out, byte[] filelength, byte[] fileformat) {
         byte[] filebytes = null;// 文件数据
         try {
             in.read(filelength);// 读文件长度
@@ -155,7 +154,7 @@ public class ThreadReadWriterIOSocket implements Runnable {
 
     /* 读取命令 */
     public static String readCMDFromSocket(InputStream in) {
-        int MAX_BUFFER_BYTES = 1024 * 5;
+        int MAX_BUFFER_BYTES = 1024 * 2;
         String msg = "";
         byte[] tempbuffer = new byte[MAX_BUFFER_BYTES];
         try {
