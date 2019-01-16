@@ -29,6 +29,7 @@
             </intent-filter>
         </activity>
 
+
         <service android:name="com.lichao.service.ConnectService" />
 
         <receiver android:name="com.lichao.service.ServiceBroadcastReceiver">
@@ -37,6 +38,7 @@
                 <action android:name="NotifyServiceStop" />
             </intent-filter>
         </receiver>
+
     </application>
 
 </manifest>

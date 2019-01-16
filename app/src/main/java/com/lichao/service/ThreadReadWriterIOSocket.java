@@ -1,9 +1,16 @@
 package com.lichao.service;
 
 import android.content.Context;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
+import android.widget.Toast;
+
 import com.lichao.usbphoneserver.FileHelper;
+import com.lichao.usbphoneserver.MainActivity;
 import com.lichao.usbphoneserver.MyUtil;
+import com.lichao.utils.Const;
+
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -13,13 +20,14 @@ import java.io.OutputStream;
 import java.net.Socket;
 
 public class ThreadReadWriterIOSocket implements Runnable {
-    private static String TAG = "ConnectService";
+    private static String TAG = "ThreadReadWriterIOSocket";
     
     private Socket client;
     private Context context;
+    private static BufferedOutputStream out;
+    private static BufferedInputStream in;
 
     ThreadReadWriterIOSocket(Context context, Socket client) {
-
         this.client = client;
         this.context = context;
     }
@@ -27,14 +35,11 @@ public class ThreadReadWriterIOSocket implements Runnable {
     @Override
     public void run() {
         Log.d(TAG, Thread.currentThread().getName() + "---->" + "a client has connected to server!");
-        BufferedOutputStream out;
-        BufferedInputStream in;
         try {
-            /* PC端发来的数据msg */
-            String currCMD = "";
             out = new BufferedOutputStream(client.getOutputStream());
             in = new BufferedInputStream(client.getInputStream());
-            // testSocket();// 测试socket方法
+            String currCMD; /* PC端发来的数据msg */
+            // 测试socket方法
             ConnectService.ioThreadFlag = true;
             while (ConnectService.ioThreadFlag) {
                 try {
@@ -47,6 +52,10 @@ public class ThreadReadWriterIOSocket implements Runnable {
                     /* 读操作命令 */
                     currCMD = readCMDFromSocket(in);
                     Log.e(TAG, Thread.currentThread().getName() + "---->" + "**currCMD ==== " + currCMD);
+                    Message msg = new Message();
+                    msg.what = Const.UPDATE_UI;
+                    msg.obj = currCMD;
+                    MainActivity.mHandler.sendMessage(msg);
 
                     /* 根据命令分别处理数据 */
                     if (currCMD.equals("1")) {
@@ -167,5 +176,15 @@ public class ThreadReadWriterIOSocket implements Runnable {
         }
         // Log.e(Service139.TAG, "msg=" + msg);
         return msg;
+    }
+
+    public static void SendMsg(String msg) {
+        String msg_1 = msg;
+        try {
+            out.write(msg_1.getBytes("UTF-8"));
+            out.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -18,7 +18,7 @@ public class SocketServerThread extends Thread {
     @Override
     public void run() {
         try {
-            Log.e("wsy", "等待连接");
+            Log.e(TAG, "等待连接");
             System.out.println("---------socket 通信线程----等待连接");
             ServerSocket serverSocket = new ServerSocket(10010);
             while (true) {
@@ -66,10 +66,10 @@ public class SocketServerThread extends Thread {
                             break;
                         }
                         if (readMsg .equals("0002")) {
+                            //  将要返回的数据发送给 pc
+                            out.write((readMsg + "flag").getBytes());
+                            out.flush();
                         }
-                        //  将要返回的数据发送给 pc
-                        out.write((readMsg + "flag").getBytes());
-                        out.flush();
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -83,7 +83,7 @@ public class SocketServerThread extends Thread {
         //读取PC端发送过来的数据
         private String readMsgFromSocket(InputStream in) {
             String msg = "";
-            byte[] tempbuffer = new byte[1024];
+            byte[] tempbuffer = new byte[1024 * 2];
             try {
                 int numReadedBytes = in.read(tempbuffer, 0, tempbuffer.length);
                 msg = new String(tempbuffer, 0, numReadedBytes, "utf-8");

@@ -78,8 +78,7 @@ public class ConnectService extends Service {
             String action = intent.getAction();
             if (action.equalsIgnoreCase("android.intent.action.PACKAGE_ADDED")) {
                 // ReadInstalledAPP();
-            } else if (action
-                    .equalsIgnoreCase("android.intent.action.PACKAGE_REMOVED")) {
+            } else if (action.equalsIgnoreCase("android.intent.action.PACKAGE_REMOVED")) {
                 // ReadInstalledAPP();
             }
             Log.e(TAG, Thread.currentThread().getName() + "---->" + "sysBroadcastReceiver onReceive");
