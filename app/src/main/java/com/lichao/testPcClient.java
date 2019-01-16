@@ -14,6 +14,7 @@ import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
+
 public class testPcClient {
 
     /**
@@ -48,28 +49,33 @@ public class testPcClient {
                     System.in));
             boolean flag = true;
             while (flag) {
+//            	String strFormsocket = readFromSocket(in);
+//            	System.out.println("收到服务器数据:" + strFormsocket);
+//            	System.out.println("=============================================");
+
                 System.out.print("请输入1~6的数字,退出输入exit：");
                 String strWord = br.readLine();// 从控制台输入1~6
                 if (strWord.equals("1")) {
-                    out.write("1".getBytes());
+                    // 解决Android接收时候中文乱码
+                    out.write("发送中文".getBytes("utf-8"));
                     out.flush();
                     System.out.println("1 finish sending the data");
-                    String strFormsocket = readFromSocket(in);
-                    System.out.println("the data sent by server is:/r/n" + strFormsocket);
+//                    String strFormsocket = readFromSocket(in);
+//                    System.out.println("the data sent by server is:/r/n" + strFormsocket);
                     System.out.println("=============================================");
                 } else if (strWord.equals("2")) {
-                    out.write("2".getBytes());
+                    out.write("English".getBytes());
                     out.flush();
                     System.out.println("2 finish sending the data");
-                    String strFormsocket = readFromSocket(in);
-                    System.out.println("the data sent by server is:/r/n" + strFormsocket);
+//                    String strFormsocket = readFromSocket(in);
+//                    System.out.println("the data sent by server is:/r/n" + strFormsocket);
                     System.out.println("=============================================");
                 } else if (strWord.equals("3")) {
-                    out.write("3".getBytes());
+                    out.write("JANGMajng146".getBytes());
                     out.flush();
                     System.out.println("3 finish sending the data");
-                    String strFormsocket = readFromSocket(in);
-                    System.out.println("the data sent by server is:/r/n" + strFormsocket);
+//                    String strFormsocket = readFromSocket(in);
+//                    System.out.println("the data sent by server is:/r/n" + strFormsocket);
                     System.out.println("=============================================");
                 } else if (strWord.equals("4")) {
                     /* 发送命令 */
